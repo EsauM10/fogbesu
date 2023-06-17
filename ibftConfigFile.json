@@ -1,0 +1,45 @@
+{
+    "genesis": {
+      "config": {
+        "chainId": 1337,
+        "berlinBlock": 0,
+        "qbft": {
+          "blockperiodseconds": 2,
+          "epochlength": 30000,
+          "requesttimeoutseconds": 4
+        }
+      },
+      "nonce": "0x0",
+      "timestamp": "0x58ee40ba",
+      "gasLimit": "4700000",
+      "difficulty": "0x1",
+      "mixHash": "0x63746963616c2062797a616e74696e65206661756c7420746f6c6572616e6365",
+      "coinbase": "0x0000000000000000000000000000000000000000",
+
+      "alloc": {
+        "4E2A1431e15270c02A2594dd08d1a0427a30ffB2": {
+          "privateKey": "062667ddf3cb129580130f36dc541a92367b0f4434ec7e8230e299f01f5ba92e",
+          "comment": "Account 1",
+          "balance": "10000000000000000000000"
+        },
+        "8d3f59eB21bbc6E1BD8fDDbF87FAB9695D043223": {
+          "privateKey": "2156b5d9539d8853c1de4ffe58610906f1cdcf0cb16575bbd9fb242b3af259d5",
+          "comment": "Account 2",
+          "balance": "20000000000000000000000"
+        },
+        "316F515CBF86C56DC657AAc34E6555a89De61C7b": {
+          "privateKey": "9bdfbfd7f67abfe620e19b16bcf364c284a13ad5aafff3624a1936034cb1730e",
+          "comment": "Account 3",
+          "balance": "50000000000000000000000"
+        }
+      }
+    },
+
+    "blockchain": {
+      "nodes": {
+        "generate": true,
+          "count": 4
+      }
+    }
+}
+  
