@@ -1,8 +1,7 @@
 import os
 from typing import Dict, List
 
-from fogbed import Container, VirtualInstance
-from fogbed.experiment import Experiment
+from fogbed import Container, Experiment, VirtualInstance
 
 from fogbesu.config import BlockchainConfigData
 from fogbesu.helpers import (

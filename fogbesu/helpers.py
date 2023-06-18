@@ -1,7 +1,6 @@
 import json
 from typing import Any, Dict, List
-from fogbed import Container, VirtualInstance
-from fogbed.experiment import Experiment
+from fogbed import Container, Experiment, VirtualInstance
 
 protocols = {
     'clique': 'CLIQUE', 
