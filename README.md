@@ -1,7 +1,7 @@
 # FogBesu
 Plugin to enable the creation of a Hyperledger Besu blockchain using [Fogbed](https://larsid.github.io/fogbed/).
 
-This package allows the creation of a private blockchain using [IBFT 2.0 consensus protocol](https://besu.hyperledger.org/en/stable/private-networks/tutorials/ibft).
+This package allows the creation of a private blockchain using [IBFT 2.0 or QBFT consensus protocols](https://besu.hyperledger.org/en/stable/private-networks/tutorials/ibft).
 
 ## Install
 
@@ -47,7 +47,7 @@ if(__name__=='__main__'):
     blockchain = BesuBlockchain(
         experiment=exp, 
         bootnode='node1', 
-        config_file='ibftConfigFile.json',
+        config_file='configFile.json',
         network=network
     )
     blockchain.run()
@@ -79,7 +79,7 @@ if(__name__=='__main__'):
     blockchain = BesuBlockchain(
         experiment=exp, 
         bootnode='node1', 
-        config_file='ibftConfigFile.json',
+        config_file='configFile.json',
         network=network
     )
     blockchain.run()
