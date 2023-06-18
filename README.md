@@ -1,5 +1,5 @@
 # FogBesu
-Plugin to enable the creation of a Hyperledger Besu blockchain using Fogbed.
+Plugin to enable the creation of a Hyperledger Besu blockchain using [Fogbed](https://larsid.github.io/fogbed/).
 
 This package allows the creation of a private blockchain using [IBFT 2.0 consensus protocol](https://besu.hyperledger.org/en/stable/private-networks/tutorials/ibft).
 
@@ -52,3 +52,37 @@ if(__name__=='__main__'):
     )
     blockchain.run()
 ```
+
+## Distributed Blockchain
+```py
+from fogbed import FogbedDistributedExperiment
+from fogbesu import BesuBlockchain
+
+
+if(__name__=='__main__'):
+    exp   = FogbedDistributedExperiment()
+    besu1 = exp.add_virtual_instance('besu1')
+    besu2 = exp.add_virtual_instance('besu2')
+
+    worker1 = exp.add_worker(ip='192.168.0.150')
+    worker2 = exp.add_worker(ip='192.168.0.151')
+
+    worker1.add(besu1, reachable=True)
+    worker2.add(besu2, reachable=True)
+    exp.add_tunnel(worker1, worker2)
+
+    network = {
+        besu1: ['node1', 'node2'],
+        besu2: ['node3', 'node4']
+    }
+
+    blockchain = BesuBlockchain(
+        experiment=exp, 
+        bootnode='node1', 
+        config_file='ibftConfigFile.json',
+        network=network
+    )
+    blockchain.run()
+
+```
+Run a worker in each machine with `sudo RunWorker` and execute the script.
