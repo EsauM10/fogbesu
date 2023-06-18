@@ -6,7 +6,7 @@ setup(
     version="0.1.0",
     description='Plugin to build a private Besu blockchain in Fogbed.',
     long_description='Plugin to build a private Besu blockchain in Fogbed.',
-    keywords=['networking', 'emulator', 'protocol', 'Internet', 'dlt', 'besu', 'fog'],
+    keywords=['networking', 'emulator', 'blockchain', 'Internet', 'dlt', 'besu', 'fog'],
     url='https://github.com/EsauM10/fogbesu',
     author='Esaú Mascarenhas',
     author_email='esaumasc@gmail.com',
@@ -18,7 +18,7 @@ setup(
         'Blockchain :: Hyperledger Besu',
     ],
     install_requires = [
-        'fogbed @ https://github.com/EsauM10/fogbed',
+        'fogbed @ https://github.com/EsauM10/fogbed/tarball/main#egg=fogbed',
     ],
     packages=find_packages(),
     zip_safe=False

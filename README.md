@@ -24,6 +24,13 @@ sudo pip install -U git+https://github.com/EsauM10/fogbesu.git
 ```
 
 ## Get Started
+Copy the Dockerfile in this repository to build a compatible Fogbed Docker image and build it with:
+```
+sudo docker build -t besu .
+```
+
+Save the example below to a file and run with `sudo python3 example.py`.
+
 ```py
 from fogbed import FogbedExperiment
 from fogbesu import BesuBlockchain
