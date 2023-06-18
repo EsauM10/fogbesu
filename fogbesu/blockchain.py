@@ -1,13 +1,18 @@
 import os
-from fogbed import Container
+from typing import Dict, List
+
+from fogbed import Container, VirtualInstance
 from fogbed.experiment import Experiment
 
 from fogbesu.config import BlockchainConfigData
 from fogbesu.helpers import (
+    create_topology,
     get_enode_url,
     make_generate_blockchain_command,
     make_start_node_command,
     read_config_file,
+    to_dict,
+    to_json,
 )
 
 
@@ -15,11 +20,17 @@ BESU_DATA_PATH = '/tmp/besu'
 
 
 class BesuBlockchain:
-    def __init__(self, experiment: Experiment, bootnode: str, config_file: str) -> None:
+    def __init__(self, 
+        experiment: Experiment, 
+        config_file: str, 
+        network: Dict[VirtualInstance, List[str]],
+        bootnode: str = 'node1'
+    ):
         self.exp = experiment
         self.bootnode_name = bootnode
-        self.file_content  = read_config_file(config_file)
+        self.config_file   = to_dict(read_config_file(config_file))
         self.filename      = os.path.basename(config_file)
+        self.network       = network
         self.output_folder = 'networkFiles'
 
 
@@ -56,7 +67,8 @@ class BesuBlockchain:
 
     def copy_config_file(self, bootnode: Container):
         print(f'>> Copying config file to bootnode ({self.bootnode_name})... 📤')
-        bootnode.cmd(f"echo '{self.file_content}' >> {self.filename}")
+        data = to_json(self.config_file)
+        bootnode.cmd(f"echo '{data}' >> {self.filename}")
 
     def copy_keys_to_nodes(self, config: BlockchainConfigData):
         nodes = self.exp.get_containers()
@@ -94,12 +106,19 @@ class BesuBlockchain:
                 f'--p2p-host={container.ip} &'
             ])
             container.cmd(command)
-        
+    
+
+    def set_nodes_number(self):
+        count = len(self.exp.get_containers())
+        self.config_file['blockchain']['nodes']['count'] = count
+
 
     def run(self):
         print('>> Creating containers... 🛠️')
+        create_topology(self.exp, self.network)
         bootnode = self.exp.get_docker(self.bootnode_name)
         self.configure_nodes(bootnode)
+        self.set_nodes_number()
         
         try:    
             self.exp.start()
