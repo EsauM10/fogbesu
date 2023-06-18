@@ -1,3 +1,5 @@
+![](https://img.shields.io/badge/python-3.8+-blue.svg)
+![](https://img.shields.io/badge/Ubuntu-20.04-orange.svg)
 # FogBesu
 Plugin to enable the creation of a Hyperledger Besu blockchain using [Fogbed](https://larsid.github.io/fogbed/).
 
