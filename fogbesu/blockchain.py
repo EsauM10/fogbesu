@@ -7,6 +7,7 @@ from fogbed.experiment import Experiment
 from fogbesu.config import BlockchainConfigData
 from fogbesu.helpers import (
     create_topology,
+    get_consensus_protocol,
     get_enode_url,
     make_generate_blockchain_command,
     make_start_node_command,
@@ -40,16 +41,18 @@ class BesuBlockchain:
             for host in self.exp.get_containers()
             if(container != host)
         ])
-    
+
     def configure_nodes(self, bootnode: Container):
         bootnode.ports.append(8545)
         bootnode.bindings.update({8545: 8545})
         
+        consensus_protocol = get_consensus_protocol(self.config_file)
+
         for container in self.exp.get_containers():
             container.environment.update({
                 'BESU_DATA_PATH': BESU_DATA_PATH,
                 'BESU_RPC_HTTP_ENABLED': True,
-                'BESU_RPC_HTTP_API': 'ETH,NET,IBFT,PERM',
+                'BESU_RPC_HTTP_API': f'ETH,NET,PERM,{consensus_protocol}',
                 'BESU_HOST_ALLOWLIST': '*',
                 'BESU_RPC_HTTP_CORS_ORIGINS': 'all',
                 'BESU_MIN_GAS_PRICE': 0
