@@ -44,7 +44,6 @@ class BesuBlockchain:
     def configure_nodes(self, bootnode: Container):
         bootnode.ports.append(8545)
         bootnode.bindings.update({8545: 8545})
-        
         consensus_protocol = get_consensus_protocol(self.config_file)
 
         for container in self.exp.get_containers():
@@ -54,8 +53,7 @@ class BesuBlockchain:
                 'BESU_RPC_HTTP_API': f'ETH,NET,PERM,{consensus_protocol}',
                 'BESU_HOST_ALLOWLIST': '*',
                 'BESU_RPC_HTTP_CORS_ORIGINS': 'all',
-                'BESU_MIN_GAS_PRICE': 0
-            })
+                'BESU_MIN_GAS_PRICE': 0})
 
     def clean_build_files(self, bootnode: Container):
         print('>> Cleaning bootnode build files... 🧹')
@@ -92,8 +90,7 @@ class BesuBlockchain:
         print(f'>> Starting {bootnode.name}... 🚀')
         command = make_start_node_command([
             f'--genesis-file={BESU_DATA_PATH}/genesis.json',
-            f'--p2p-host={bootnode.ip} &'
-        ])
+            f'--p2p-host={bootnode.ip} &'])
         bootnode.cmd(command)
 
         containers = self.exp.get_containers()
@@ -105,13 +102,11 @@ class BesuBlockchain:
             command = make_start_node_command([
                 f'--genesis-file={BESU_DATA_PATH}/genesis.json',
                 f'--bootnodes={enode_url}',
-                f'--p2p-host={container.ip} &'
-            ])
+                f'--p2p-host={container.ip} &'])
             container.cmd(command)
     
 
-    def set_nodes_number(self):
-        count = len(self.exp.get_containers())
+    def set_nodes_number(self, count: int):
         self.config_file['blockchain']['nodes']['count'] = count
 
 
@@ -120,7 +115,7 @@ class BesuBlockchain:
         create_topology(self.exp, self.network)
         bootnode = self.exp.get_docker(self.bootnode_name)
         self.configure_nodes(bootnode)
-        self.set_nodes_number()
+        self.set_nodes_number(count=len(self.exp.get_containers()))
         
         try:    
             self.exp.start()
