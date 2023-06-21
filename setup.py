@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="fogbesu",
-    version="0.2.0",
+    version="0.3.0",
     description='Plugin to build a private Besu blockchain in Fogbed.',
     long_description='Plugin to build a private Besu blockchain in Fogbed.',
     keywords=['networking', 'emulator', 'blockchain', 'Internet', 'dlt', 'besu', 'fog'],

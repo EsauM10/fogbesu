@@ -24,13 +24,15 @@ class BesuBlockchain:
         experiment: Experiment, 
         config_file: str, 
         network: Dict[VirtualInstance, List[str]],
-        bootnode: str = 'node1'
+        bootnode: str = 'node1',
+        host_http_rpc_port: int = 8545
     ):
         self.exp = experiment
         self.bootnode_name = bootnode
         self.config_file   = to_dict(read_config_file(config_file))
         self.filename      = os.path.basename(config_file)
         self.network       = network
+        self.http_rpc_port = host_http_rpc_port
         self.output_folder = 'networkFiles'
 
 
@@ -43,7 +45,7 @@ class BesuBlockchain:
 
     def configure_nodes(self, bootnode: Container):
         bootnode.ports.append(8545)
-        bootnode.bindings.update({8545: 8545})
+        bootnode.bindings.update({8545: self.http_rpc_port})
         consensus_protocol = get_consensus_protocol(self.config_file)
 
         for container in self.exp.get_containers():
@@ -126,7 +128,8 @@ class BesuBlockchain:
             self.copy_keys_to_nodes(config)
             self.clean_build_files(bootnode)
             self.start_network(bootnode)
-            input('Press any key to quit...')
+            print(f'>> JSON-RPC HTTP service endpoint: http://localhost:{self.http_rpc_port}')
+            input('\nPress any key to quit...')
 
         except Exception as ex:
             print(ex)
