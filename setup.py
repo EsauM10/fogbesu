@@ -17,9 +17,7 @@ setup(
         'Operating System :: Ubunbu OS',
         'Blockchain :: Hyperledger Besu',
     ],
-    install_requires = [
-        'fogbed @ https://github.com/EsauM10/fogbed/tarball/main#egg=fogbed',
-    ],
+    install_requires = ['fogbed'],
     packages=find_packages(),
     zip_safe=False
 )
